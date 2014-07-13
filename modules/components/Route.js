@@ -71,7 +71,23 @@ var RESERVED_PROPS = {
  *   });
  */
 var Route = React.createClass({
+
   displayName: 'Route',
+
+  mixins: [Mixin],
+
+  render: function () {
+    // TODO: In React 0.11 we will be able to `return null` here.
+    // https://github.com/facebook/react/issues/1058
+    if (!this.state.path)
+      return React.DOM.div();
+
+    return this.props.handler(computeHandlerProps(this.state.matches || [], this.state.activeQuery));
+  }
+
+});
+
+var Mixin = {
 
   statics: {
 
@@ -210,18 +226,9 @@ var Route = React.createClass({
     }
 
     return promise;
-  },
-
-  render: function () {
-    // TODO: In React 0.11 we will be able to `return null` here.
-    // https://github.com/facebook/react/issues/1058
-    if (!this.state.path)
-      return React.DOM.div();
-
-    return this.props.handler(computeHandlerProps(this.state.matches || [], this.state.activeQuery));
   }
 
-});
+};
 
 function Transition(path) {
   this.path = path;
@@ -458,4 +465,8 @@ function reversedArray(array) {
   return array.slice(0).reverse();
 }
 
-module.exports = Route;
+module.exports = {
+  Route: Route,
+  RouteMixin: Mixin,
+  computeHandlerProps: computeHandlerProps
+};

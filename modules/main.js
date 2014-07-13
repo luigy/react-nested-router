@@ -1,5 +1,7 @@
 exports.Link = require('./components/Link');
-exports.Route = require('./components/Route');
+exports.Route = require('./components/Route').Route;
+exports.RouteMixin = require('./components/Route').RouteMixin;
+exports.computeHandlerProps = require('./components/Route').computeHandlerProps;
 
 exports.goBack = require('./helpers/goBack');
 exports.replaceWith = require('./helpers/replaceWith');
